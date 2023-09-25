@@ -202,7 +202,7 @@ class SocialLogin {
     return null;
   }
 
-  async socialLogin(loginProvider: string): Promise<SafeEventEmitterProvider | null> {
+  async socialLogin(loginProvider: string, idToken:string): Promise<SafeEventEmitterProvider | null> {
     if (!this.web3auth) {
       console.info("web3auth not initialized yet");
       return null;
@@ -210,6 +210,9 @@ class SocialLogin {
     try {
       const web3authProvider = await this.web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
         loginProvider: loginProvider,
+        extraLoginOptions: {
+          id_token:idToken,
+      },
       });
       if (!web3authProvider) {
         console.error("web3authProvider is null");
